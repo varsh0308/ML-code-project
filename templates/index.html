@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Crowd Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body class="container" style="background-image: url('https://images.unsplash.com/photo-1538054274783-71563ab54168?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-repeat: no-repeat;">
+    <div class="row mt-5 gx-5">
+        <div class="col-lg-5" >
+            <div class="container border border-3 p-4 rounded-5 " style="background-color: white;">
+                <h2 style="color: grey">Guide to Enter Details</h2> <br>
+                <p><b class="fs-5" style="color: rgb(89, 87, 87)">Time of the Day:</b> From 6:00am to 10:00pm <br><br>
+                <b class="fs-5" style="color: rgb(89, 87, 87)">Weather:</b> <br>
+                1 - Good weather (Clear sky, Low wind)<br>
+                2 - Moderate weather (Partly cloudy, Moderate wind)<br>
+                3 - Poor weather (Overcast, High wind)<br>
+                4 - Very Poor weather (Rain, Snow)<br>
+                5 - Severe weather (Heavy rains, Thunderstorms)<br><br>
+                <b class="fs-5" style="color: rgb(89, 87, 87)">Festivities/Holidays/Weekends :</b> <br>
+                0 - No <br>
+                1 - Yes
+                </p>
+
+            </div>
+
+
+
+        </div>
+        <div class="col-lg-7">
+            <div class="container border border-3 p-4 rounded-5" style="background-color: white;">
+            <h2 style="color: grey">Bus Crowd Prediction</h2><br>
+            <form id="predictionForm">
+                <label for="time_of_day" class="fw-bold mb-2" style="color: rgb(89, 87, 87)">Time of Day (6-22):</label><br>
+                <input type="number" name="time_of_day" id="time_of_day" class="mb-3 w-100 p-1" required><br>
+
+                <label for="weather_condition" class="fw-bold mb-2" style="color: rgb(89, 87, 87)">Weather Condition (1-5):</label><br>
+                <input type="number" name="weather_condition" id="weather_condition" class="mb-3 w-100 p-1" required><br>
+
+                <label for="holidays" class="fw-bold mb-2" style="color: rgb(89, 87, 87)">Festivities/Holidays (0 or 1):</label><br>
+                <input type="number" name="holidays" id="holidays" class="mb-3 w-100 p-1" required><br>
+
+                <button type="submit" class="my-3 btn btn-success rounded-0 px-5">Predict</button>
+            </form>
+
+            <div id="predictionResult"></div>
+
+            <script>
+                document.getElementById('predictionForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    var formData = new FormData(this);
+
+                    fetch('/predict', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.text())
+                        .then(result => {
+                            document.getElementById('predictionResult').innerHTML = "<h2>Prediction Result</h2><p>" + result + "</p>";
+                        });
+                });
+            </script>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
